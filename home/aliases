@@ -26,5 +26,6 @@ alias school="konsole -e ssh -l jfrens school.cs.indiana.edu"
 alias svn-ignore='svn propedit svn:ignore .'
 alias svn-check='svn status ~/Classes/ ~/Projects/ ~/Personal/ ~/Department/'
 alias svn-clean='find ~/ -name "svn-commit*.tmp*" | xargs rm -f'
+alias svn-updates='svn update ~/Classes ~/Projects ~/Personal ~/System'
 alias texclean="/bin/rm -f *.dvi *.log *.ps *.aux *.toc *.tof *.lof *.lot *.bbl *.blg *~"
 alias webclean='find . \( -name "*.html" -o -name "*.aux" -o -name "*pass" \) -exec rm \{} \;'
