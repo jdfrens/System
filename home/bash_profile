@@ -1,0 +1,53 @@
+#
+# .bash_profile 
+#
+# Authors
+#  Original: Erik Hilsdale (eh@acm.org)
+#  Heavily modified by for personal use at Indiana University:
+#    Jeremy D. Frens (jdfrens@acm.org)
+#  Heavily modified again for RedHat Linux at Nothwestern College:
+#    Jeremy D. Frens (jdfrens@acm.org)
+
+# This file is sourced by bash when bash is run as a LOGIN shell.
+# On login, the sequence of things that happen are:
+#   1) Regardless of what shell you're using, if the file
+#      ~/.hushlogin does not exist:
+#	 * /etc/motd (the message of the day) is printed out
+#	 * you're told if you have mail
+#   2) The file /etc/profile is sourced by bash (if it exists)
+#   3) This file is sourced by bash.  This file can be named
+#      .bash_profile, .bash_login, or .profile
+
+# the .profile should hold things that are meaningful in a login shell
+# *and nothing else*.  This means, in general, only setting up the
+# terminal.  For use at NWC and RedHat Linux, setting up TERM and
+# DISPLAY seem to be unnecessary.
+
+# The reason it should do so little is that oftentimes you will want
+# to perform some command remotely *without logging in* with ssh, and
+# for that command you want the environment to be your usual one.
+# Hence most of those things should go into the .bashrc file.
+
+# Incoming environment:
+#   There are four environment variables which *should* be set by
+#   login(1):  HOME, SHELL, TERM (if there is one) and USER.
+
+# First, get the .bashrc out of the way.  
+source $HOME/.bashrc
+
+# This sometimes helps the initial prompt
+cd
+
+
+# Set the backspace key correctly! (is this correct?)
+stty erase 
+
+#
+# Set the PATH correctly.
+#   Notice that the current directory (.) is at the END of the
+#   path.  This should NEVER be at the beginning of your path,
+#   for security.
+#   In bash with RedHat Linux, it appears that the PATH should be set
+#   in the .bash_profile.
+#PATH=/usr/games:$HOME/bin:$PATH:$HOME/nmh/bin:.
+

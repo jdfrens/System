@@ -1,0 +1,93 @@
+# Original author:
+#   Erik Hilsdal (eh@acm.org)
+# Heavily modified for personal use at IU:
+#   Jeremy D. Frens (jdfrens@acm.org)    24 June 1996
+# Modified minorly for RedHat Linux at NWC:
+#   Jeremy D. Frens (jdfrens@acm.org)    July/August 1999
+
+# .bashrc 
+#
+# This file is processed each time a new *interactive* bash shell is
+# created.  The exception is login shells: if the shell is a login
+# shell, then the file .bash_profile, .bash_login or .profile
+# (whichever one exists) is sourced instead.
+
+#
+# Set some shell options
+
+set -o emacs			# use emacs command-line editing.
+# set -o notify			# notify when a process exits
+umask 077			# allow no one to read my files
+ulimit -c 0			# limit COREFILESIZE to zero
+
+#
+# Set some variables used mainly by the shell
+
+export TMOUT=0			# don't log me out for lack of activity
+export LINK_TIMEOUT=3		# wait three minutes for nfs timeouts
+export PS1='[\h:\w]\n\$ '		# make my main prompt pretty
+
+PATH=$HOME/j2sdk1.5.0/bin:/usr/X11R6.3/bin:/usr/local/bin:/usr/games:/usr/ucb:$HOME/bin:$PATH:$HOME/local/bin:$HOME/bin/ant/bin:.
+
+#
+# Bash keeps the current directory in the variable PWD.  If we
+# export it, emacs will use it rather than using the command
+# pwd.  The command pwd generates an absolute pathname (i.e., no
+# tildes), so it should be avoided.
+
+export PWD	
+
+#
+# Set some variables which other programs use
+
+set -a			# export all variables defined here
+
+# These are special setting for using LaTeX
+TEXINPUTS=/usr/share/texmf/tex/latex/base::$HOME/Classes/CS/108/Lectures/includes::$HOME/Classes/CS/214/Lectures/includes::$HOME/lib/tex/macros:.
+BSTINPUTS=$HOME/lib/tex/macros:.
+
+#
+# Set the EDITOR variable.
+
+PERL5LIB=/home/jdfrens/local/lib/perl
+
+EDITOR=/usr/bin/emacs
+
+TRNINIT="-B -e -L -m=u -v -x -X"
+				# -B:spinner -e:strt each page at top
+				# -L:don't cls on a new page
+				# -m=u: underline last line of last page
+				# -N: force non-mailbox saves
+				# -v: display the key you hit...
+				# -x,-X: use threads
+
+LESS=-mq			# less default options: m=verbose, q=quiet
+PAGER='less -s'			# for man pages.  s=contract blank lines
+ENSCRIPT='-h'			# -h: no burst page
+
+# recommended by default .bash_profile
+BASH_ENV=$HOME/.bashrc
+
+HISTCONTROL=ignoredups
+
+set +a			# stop auto-exporting
+
+#
+# Determine the hostnamme.
+
+# Why?
+# HOST=$(hostname)
+# HOST=${HOST%%.*}	# get rid of the domain if we get one
+# export HOST
+
+# Get rid of the long directory name for the home directory
+# in the prompt
+cd .
+
+export NETHACKOPTIONS='autopickup,pickup_types:$,name:Reagan,pettype:dog,dogname:Bob,rest_on_space,number_pad'
+
+#
+# Define some handy aliases
+source $HOME/.aliases
+[ -f /etc/profile.d/bash-completion ] && . /etc/profile.d/bash-completion
+[ -f /usr/share/cdargs/cdargs-bash.sh ] && source /usr/share/cdargs/cdargs-bash.sh

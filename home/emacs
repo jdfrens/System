@@ -1,0 +1,459 @@
+;;You may use this file as specified under the GNU General Public License
+;; .gnuemacs file 
+
+;; Original author:
+;;   Erik Hilsdale (eh@acm.org)
+;; Modified heavily for personal use at IU by
+;;   Jeremy D. Frens (jdfrens@acm.org)
+;; Modified heavily for RedHat Linux at NWC by
+;;   Jeremy D. Frens (jdfrens@acm.org)
+
+;; For anyone who would "steal" this file...
+;;
+;; + This file is loaded by the .emacs file.  This is to allow me to
+;;   have different settings for GNU emacs and Xemacs.
+;;
+;; + Many visual setting for emacs under X Windows are set in
+;;   .Xdefaults.  Check that file for my preferred settings.
+;; 
+;; + There are many definitions here that may be of use only to
+;;   myself.  I have placed the word "OPTIONAL" (without quotes, in
+;;   all caps) in a comment before these definitions.  You're free to
+;;   do with them as you want.
+;;
+;; + There are several things in this file that makes emacs behave
+;;   different from the norm.  Turning off C-h as the help hey is
+;;   fairly standard since C-h is all too often backsapce, so I
+;;   wouldn't worry too much about that.  However, I have instead
+;;   mapped M-h to be the help key instead.  I've tried to note these
+;;   non-standard changes by the word "NONSTANDARD".  If you use this
+;;   file, you may want to take note of these nonstandard changes I've
+;;   made so that instructions you read will make sense.
+;;
+;; + The word "TODO" represents something I still need to do.
+;;
+
+;; NONSTANDARD
+;; To prevent emacs from immediately dying if I accidentally hit C-x C-c
+;; with all of my files saved.
+(setq kill-emacs-query-functions
+      (cons (lambda () (yes-or-no-p "Really kill Emacs? "))
+	    kill-emacs-query-functions))
+
+;; some useful macros:
+
+;; (defmacro when (test thing)
+;;   "(when TEST THING) \nevaluates TEST, and if true evaluates THING"
+;;   (list 'and test thing))
+
+;; (defmacro unless (test thing)
+;;   "(unless TEST THING) \nevaluates TEST, and if false evaluates THING"
+;;   (list 'or test thing))
+
+
+;; -------- Set the Load Path correctly --------
+
+;; Don't remove my directory unless (1) you've eliminated the code
+;; from this file that loads files from my directory or (2) if you've
+;; copied those files into your own directory and added your directory
+;; here.
+(setq load-path (append (list
+			 "/home/jdfrens/lib/emacs/lisp/"
+			 "/home/jdfrens/local/share/emacs/site-lisp/"
+			 )
+			load-path))
+
+;; -------- Libraries ---------
+
+;; This is such a major kludge.
+; (load-file "/usr/share/emacs/20.3/lisp/ispell.el")
+
+;; -------- Global Defaults and Preferences --------
+
+;; ---- key bindings
+
+(setq function-keymap function-key-map)		; for backwards-compatability
+
+(global-set-key "\C-t" 'tab-to-tab-stop)	; C-T tabs even in lisp mode
+
+;; mildly NONSTANDARD
+(global-set-key "\C-h" 				; C-H backspaces...
+		'backward-delete-char-untabify)
+(global-set-key "\M-h" 'help-command)		; ...so M-H is needed for help
+
+;; NONSTANDARD, but incredibly useful
+(global-set-key "\C-\\" 'call-last-kbd-macro)
+
+;; NONSTANDARD
+;; M-g is by default a useless set-face command.
+(global-set-key "\M-g" 'goto-line)
+
+;; NONSTANDARD, and very OPTIONAL (may be fixed with latest version of emacs)
+;; dealing with !@#%!@#$!@#$ compilation mode
+(global-set-key "\C-ce" 'follow-the-end-of-comilation-buffer)
+(defun follow-the-end-of-comilation-buffer ()
+  "Does what compilation mode should do for me."
+  (interactive)
+  (progn
+    (other-window 1)
+    (goto-char (point-max))
+    (other-window -1)))
+
+;; ---- general preferences
+
+(setq auto-save-interval 1000)			; don't autosave as often.
+
+;(transient-mark-mode t)				; highlites area between point
+						; and mark.
+
+;(set-default-font "6x13")                       ; default font
+
+;(show-paren-mode 1)                             ; how are matching
+						; parens indicated?
+
+(setq inhibit-startup-message t)		; don't tell me about emacs.
+
+; (setq display-time-day-and-date t)
+; (display-time)					; display the time on modeline
+
+(fset 'yes-or-no-p (symbol-function 'y-or-n-p))	; y/n, not yes/no
+
+(put 'capitalize-region 'disabled t)		; disable dangerous commands
+(put 'downcase-region   'disabled t)
+(put 'upcase-region     'disabled t)
+(put 'eval-expression   'disabled nil)		; and enable useful ones
+(put 'zap-to-char       'disabled nil)
+
+;; -------- Mode Hooks and Program Variables --------
+
+;; OPTIONAL: if you don't use a particular program (like noweb), you
+;; can safely remove the settings from that program's section.
+
+; ---- Noweb
+
+(autoload 'noweb-mode "noweb-mode" "Editing noweb files." t)
+(defun noweb-filenames ()
+  "Discards some file extensions for automatic completion."
+  (interactive)
+  (progn
+    (setq completion-ignored-extensions 
+	  (append '(".c" ".C" ".h" ".defs" ".tex")
+		  completion-ignored-extensions))))
+(add-hook 'noweb-hook
+	  (function (lambda ()
+		      (setq completion-ignored-extensions 
+			    (append '(".c" ".C" ".h" ".defs" ".tex")
+				    completion-ignored-extensions)))))
+ 
+
+; ---- Printing
+
+;; TODO: Need to test printing from emacs on NWC machines
+
+
+; ---- Man mode
+
+(setq manual-program "/usr/bin/man")
+
+; ---- C mode
+
+; ---- CSS mode
+(autoload 'css-mode "css-mode")
+
+; ---- Text mode
+
+(add-hook 'text-mode-hook 
+	  (function 
+	   (lambda () 
+	     (auto-fill-mode t)			; always auto-fill
+	     (setq fill-column 70) )))		; and fill at column 65
+
+(setq initial-major-mode 'text-mode)		; start in text mode...
+(setq default-major-mode 'text-mode)		; ... and default to it.
+
+; ---- Filladapt
+
+; (require 'filladapt)
+
+; ---- Java
+
+;; originally stolen from Jonathan Sobel (jsobel@cs.indiana.edu)
+(add-hook 'java-mode-hook 'my-java-mode-hook)
+(defun my-java-mode-hook ()
+  ; (c-set-style "java")
+  (setq c-basic-offset 2)
+  ;; html-insert-matching-tag defined below
+  (local-set-key "\C-c]" 'html-insert-matching-tag)
+  )
+
+; ---- HTML mode
+
+;; (autoload 'html-mode "html-mode" "Yay HTML" t)
+;; This is more OPTIONAL than these others.  See
+;; http://www.imatrix.com to learn more about htmlpp
+;; (autoload 'htmlpp-mode "htmlpp" "It's a minor mode" t)
+
+; ---- Latte mode
+;      See www.latte.org for the most amazing HTML generator ever!
+
+(autoload 'latte-mode "latte" "Latte mode" t)
+
+; ---- LaTeX mode
+;; This is based on auctex, which is the most amazing emacs mode known
+;; to man.
+
+;; This require just sets up autoloads, so it's ok.
+; (require 'tex-site)
+
+;; Use the new font stuff for LaTeX-2e
+;(setq TeX-font-list '((?\C-b "\\textbf{" "}")
+;		      (?\C-c "\\textsc{" "}")
+;		      (?\C-e "\\emph{" "}")
+;		      (?\C-i "\\textit{" "}")
+;		      (?\C-r "\\textrm{" "}")
+;		      (?\C-s "\\textsl{" "}")
+;		      (?\C-t "\\texttt{" "}")
+;		      (?\C-d "" "" t)))
+
+;; M-g in latex mode is latex-fill-region.  This is annoying, since I
+;; really want M-g to be the global, goto-line function.
+(add-hook 'LaTeX-mode-hook
+	  (function (lambda () (local-unset-key "\M-g"))))
+
+; (setq-default TeX-master nil) ; Query for master file
+;; These variables affect multiple file documents
+; (setq TeX-parse-self t) ; Enable parse on load.
+; (setq TeX-auto-save t) ; Enable parse on save.
+
+; ---- Matlab
+(autoload 'matlab-mode "matlab" "Enter Matlab mode." t)
+(setq auto-mode-alist (cons '("\\.m$" . matlab-mode) auto-mode-alist))
+(defun my-matlab-mode-hook ()
+  (setq matlab-function-indent t)	; if you want function bodies indented
+  (setq fill-column 76)		; where auto-fill should wrap
+  (turn-on-auto-fill))
+(add-hook 'matlab-mode-hook 'my-matlab-mode-hook)
+
+; ---- PHP mode
+(require 'php-mode)
+(add-hook 'php-mode-user-hook 'turn-on-font-lock)
+
+; ---- Scheme mode 
+
+;; TODO: test this scheme stuff at NWC.  Worked fine at IU with Chez
+;; Scheme.
+;; (autoload 'scheme-mode "iuscheme" "Major mode for Scheme." t)
+;; (autoload 'run-scheme "iuscheme" "Switch to interactive Scheme buffer." t)
+;; (autoload 'run-alt-scheme "iuscheme"
+;;   "Switch to interactive alternative Scheme buffer." t)
+
+; ---- font lock mode
+
+;; Fontlocking is turned on only if we're running xwindows.
+
+(if window-system
+    (progn
+      ;; the hooks are in alphabetical order
+       (add-hook 'c-mode-hook 'turn-on-font-lock)
+       (add-hook 'c++-mode-hook 'turn-on-font-lock)
+       (add-hook 'emacs-lisp-mode-hook 'turn-on-font-lock)
+       ;; (add-hook 'html-helper-mode-hook 'turn-on-font-lock)
+       (add-hook 'java-mode-hook 'turn-on-font-lock)
+       (add-hook 'LaTeX-mode-hook 'turn-on-font-lock)
+       (add-hook 'latex-mode-hook 'turn-on-font-lock)
+       (add-hook 'makefile-mode-hook 'turn-on-font-lock)
+       (add-hook 'matlab-mode-hook 'turn-on-font-lock)
+       (add-hook 'perl-mode-hook 'turn-on-font-lock)
+       (add-hook 'scheme-mode-hook 'turn-on-font-lock)
+       (add-hook 'shell-script-mode-hook 'turn-on-font-lock)
+      ))
+
+;; cryptic documentation on the format of this list can be found
+;; in the documentation for ``font-lock-keywords''.  This
+;; definition defines the syntax (by regexps) which should be
+;; fontified.
+
+(defvar scheme-font-lock-keywords
+  (append
+   (mapcar (lambda (x) (format "(%s\\b" x))
+	   '(quote begin unless when
+		   if case cond and or
+		   define set! lambda rec
+		   fluid-let
+		   synlambda keywords extend-syntax))
+   '("[[(]else\\b" 
+     "(let\\(rec\\|[*]\\|\\)\\b"
+     "(trace-\\(lambda\\|let\\)\\b"
+     ("'()" 0 font-lock-string-face keep)
+     ("#\\([tf]\\|\\\\.\\)" 0 font-lock-string-face keep)
+     ("'[-$%><_=?:*]*\\w+\\([-_<>=?:*$%.]+\\w*\\)*" 
+	0 font-lock-string-face keep)	
+     "("
+     ")"
+     "[][`',@]"
+     ))
+
+  "*The keywords to highlight in scheme.  
+More information can be found in the documentation for font-lock-keywords")
+
+
+;; -------- File Extensions --------
+
+(setq auto-mode-alist (append 
+		       '(("\\.ss$" . scheme-mode) 
+			 ("\\.nw$" . noweb-mode)
+			 ("\\.pl$" . perl-mode)
+			 ("\\.is$" . scheme-mode)
+			 ("\\.sw$" . scheme-mode)
+			 ("\\.C$" . c++-mode)
+			 ("\\.h$" . c++-mode)
+			 ;; ("\\.gs$" . gofer-mode)
+			 ;; ("\\.gp$" . gofer-project)
+			 ;; ("\\.hs$" . haskell-mode)
+			 ;; ("\\.lhs$" . haskell-mode)
+			 ("\\.java$" . java-mode)
+			 ("\\.pizza$" . java-mode)
+			 ("\\.html$" . html-mode)
+			 ("\\.php$" . php-mode)
+			 ;; ("\\.htp$" . html-helper-mode)
+			 ("\\.tex$" . latex-mode)
+			 ("\\.latte$" . latte-mode)
+			 ("\\.css$" . css-mode)
+			 )
+		       auto-mode-alist))
+
+(setq completion-ignored-extensions 
+      (append '(".so" ".class" ".aux" ".log" ".dvi" ".ps")
+	      completion-ignored-extensions))
+
+
+;; ----------------------------------
+;; VERY OPTIONAL
+;; Jeremy's email signer.
+;;
+;; Unless you are using MH or some other email system where you can
+;; enter the signature manually yourself, this is of absolutely no
+;; interest to you, and you should remove it.  If I were a better
+;; person, I'd put it into its own file in my own lib directory.
+;; 
+;; This function adds my signature to a mail message while I have it
+;; in emacs.  It also cycles through my signature files to pull in a
+;; new quote every time I run it.
+;;
+;; "/home/jdfrens/signatures/number.sig" is a file with two numbers in it.
+;; The first number is the number of the current signature; the second
+;; number is the total number of signatures.  It is ESSENTIAL that the
+;; two numbers appear on separate lines and that the current number
+;; appear first.  These numbers do NOT have to be a full three digits
+;; (see the next paragraph).
+;;
+;; The signatures should be stored in files of the form "sigXXX" where
+;; "XXX" is replaced by a three digit number.  It is ESSENTIAL that
+;; the numbering start with 001 and go up consecutively.
+(defun sign-mail ()
+  "Signs a mail message."
+  (interactive)
+  (save-excursion
+    ;; (goto-char (point-max))
+    (insert "jdf\n\n----\n")
+    (insert "***  Jeremy D. Frens --- Professor of Computer Science --- Calvin College ***\n")
+    (let ((buffer (find-file-noselect "/home/jdfrens/signatures/number.sig")))
+      (let* ((current (read buffer))
+	     (total (read buffer)))
+	(insert-file (format "/home/jdfrens/signatures/sig%03d" current))
+	(set-buffer buffer)
+	(goto-char (point-min))
+	(kill-line)
+	(insert (number-to-string (% (+ current 1) total)))
+	(write-file "/home/jdfrens/signatures/number.sig" nil)
+	(kill-buffer buffer)
+	))))
+
+(defun sign-mail-formal ()
+  "Signs a formal mail message."
+  (interactive)
+  (progn
+    (insert "Sincerely,\nJeremy D. Frens\n")
+    (insert-file "/home/jdfrens/.formalsignature")
+    (insert "\n----\n")))
+
+;; ---- Erik's HTML matching tag function
+(defun html-insert-matching-tag ()
+  "foo"
+  (interactive)
+  (let ((found-tag-name (html-find-unbalanced-tag)))
+    (insert (format "</%s>" found-tag-name))))
+
+(defvar html-ignored-unbalanced-tags
+  '("li" "p" "hr" "br" "dt" "dd" "img")
+  "adf")
+
+(defun html-find-unbalanced-tag ()
+  "goo"
+  (catch 'foo
+    (let ((p (point)))   ;; starting point
+      (let ((top-p p))   ;; current point to start searching backwards from
+	(while t
+	  (save-excursion
+	    (let ((open
+		   (save-excursion
+		     (goto-char top-p)
+		     (re-search-backward "<\\(\\sw+\\)[^>]*>"
+					 (point-min) t))))
+	      (if (not open)
+		  (error "Nothing to close!")
+		(let ((tag-name (match-string 1)))
+		  (set-text-properties 0 (length tag-name) nil tag-name)
+		  ;; tag-name contains font-lock information
+		  (if (member tag-name html-ignored-unbalanced-tags)
+		      (setq top-p open)
+		    (let ((close
+			   (save-excursion
+			     (goto-char open)
+			     (re-search-forward (format "</%s>" tag-name)
+						p t))))
+		      (if close
+			  (setq top-p open)
+			(throw 'foo tag-name)))))))))))))
+
+;(add-hook 'html-helper-mode-hook
+;	  (function
+;	   (lambda ()
+;	     (local-set-key "\C-c]" 'html-insert-matching-tag))))
+
+;; --- LAML
+
+;; found in /usr/local/scheme/lib/laml/emacs-support/
+
+; loads the LAML emacs support
+; (load "/usr/local/scheme/lib/laml/laml.el") 
+
+; (setq auto-mode-alist (append 
+; 		       '(("\\.laml$" . scheme-mode) 
+; 			 )
+; 		       auto-mode-alist))
+
+; (add-hook 'scheme-mode-hook
+; 	  (function
+; 	   (lambda ()
+; 	     (auto-fill-mode t))))
+
+; loads the Scheme Elucidator Emacs support
+; (load "/usr/local/scheme/lib/laml/styles/elucidator/elucidator.el")  
+
+
+; Arrange that C-o starts asynchronous laml processing
+; (global-set-key "\C-o" 'laml-process-current-buffer)
+
+; Arrange that C-i starts synchronous laml processing
+; (global-set-key "\C-i" 'laml-sync-process-current-buffer)
+
+; Arrange that C-xC-e calls the LAML embed command:
+(global-set-key "\C-x\C-e" 'embed)
+(custom-set-variables
+ ; '(paren-mode (quote paren) nil (paren))
+ '(toolbar-visible-p nil)
+ '(user-mail-address "jdfrens@calvin.edu" t)
+ '(query-user-mail-address nil)
+ '(font-lock-mode t nil (font-lock)))
+(custom-set-faces)
