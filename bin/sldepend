@@ -35,7 +35,7 @@ while (-e $dir) {
   }
   $dir = $dir . "../";
 }
-open (OUTPUT, "| cpif loaddefs.linc") || die "Cannot open loaddefs.linc";
+open (OUTPUT, "| cpif loaddefs.linc") || die "Cannot run cpif, or cannot open loaddefs.linc";
 foreach my $file (@deffiles) {
   print OUTPUT "\{\\load-file $file\}\n";
 }
