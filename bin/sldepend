@@ -1,0 +1,77 @@
+#!/usr/bin/perl -s
+
+use strict;
+
+use File::Copy;
+
+## figure out which makefile to use.
+my $makefile = "lattedependencies.mk";
+if ($ARGV[0] =~ /^-f(.*)$/) {
+    $makefile = $1;
+    shift @ARGV;
+}
+my $oldmakefile = "/dev/null";
+if (-e $makefile) {
+    $oldmakefile = $makefile . ".bak";
+    copy ($makefile, $oldmakefile);
+}
+open (MAKEFILE, "<$oldmakefile") || die "Cannot open $oldmakefile";
+open (NEWMAKEFILE, ">$makefile") || die "Cannot open $makefile";
+
+## find the end of the makefile.
+while (<MAKEFILE>) {
+    last if (/^\# latte dependencies begin$/);
+    print NEWMAKEFILE;
+}
+close (MAKEFILE);
+
+## find all defs.latte files
+my @deffiles = ();
+my $dir = "./";
+while (-e $dir) {
+  my $file = $dir . "defs.latte";
+  if (-e  $file) {
+    unshift @deffiles, $file;
+  }
+  $dir = $dir . "../";
+}
+open (OUTPUT, "| cpif loaddefs.linc") || die "Cannot open loaddefs.linc";
+foreach my $file (@deffiles) {
+  print OUTPUT "\{\\load-file $file\}\n";
+}
+close OUTPUT;
+
+## create dependencies
+print NEWMAKEFILE "\# latte dependencies begin\n";
+while ($#ARGV > -1) {
+  my $curr = pop @ARGV;
+  my @chain = ($curr);
+  (my $currhtml = $curr) =~ s/(latte|lgen)/html/;
+  print NEWMAKEFILE "$currhtml: $curr " . join (" ", @deffiles);
+  while ($#chain > -1) {
+    my $file = pop @chain;
+    if (-e $file) {
+      open (INPUT, "<$file") || die "Cannot open $file";
+      while (<INPUT>) {
+	chomp;
+	if (/\{\\load\-file\s+([\/\w\.]+)\}/) {
+	  print NEWMAKEFILE " $1";
+	  push @chain, $1;
+	}
+	if (/\{\\file\-contents\s+([\/\w\.]+)\}/) {
+	  print NEWMAKEFILE " $1";
+	  push @chain, $1;
+	}
+	if (/file\-?dep:\s*([\/\w\.]+)/) {
+	  print NEWMAKEFILE " $1";
+	  # do not push b/c filedep is assumed flat
+	}
+      }
+    }
+    else {
+      print STDERR "Cannot find file $file.\n";
+    }
+  }
+  print NEWMAKEFILE "\n";
+}
+close (NEWMAKEFILE);

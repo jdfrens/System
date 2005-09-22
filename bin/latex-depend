@@ -1,0 +1,49 @@
+#!/usr/bin/perl
+#----------------------------------------------------------------------
+# A perl script to determine makefile dependencies for LaTeX documents.
+# The target name determines the type of extension to add to graphics
+# files.  If it is .pdf, the default extension is .mps, otherwise it
+# is .eps.
+#
+# S.J.Henriksen, 1999. emeth@dr.com
+# http://www.sjh.f2s.com/
+#----------------------------------------------------------------------
+sub FixExt {
+    $name=$_[0];
+    return $name if ($name =~ /\.png$/);
+    return $name if ($name=~/\.[me]ps/);
+    return $name.".mps" if $_[1]=~/\.pdf$/;
+    return $name.".eps";
+}
+
+die "Usage:\n  $0 target\n" if $#ARGV<0;
+print $ARGV[0].": ";
+$ARGV[0]=~/^([^.]*)/;
+open(SRC, $1.".tex");
+while (<SRC>) {
+    if (/^[^%]*\\includeonly\{([^\}]*)\}/) {
+        @files=split(/,/,$1);
+        $HaveOnly=1;
+    };
+    last if /^[^%]*\\begin/;
+}
+while (<SRC>) {
+    if ((!$HaveOnly) && /^[^%]*\\include\{([^\}]*)\}/) {
+        @files=(@files,$1);
+    };
+    if (/^[^%]*\\includegraphics(\[.*?\])\{([^\}]*)\}/) {
+        print FixExt($2,$ARGV[0])." ";
+    };
+}
+print "\n";
+foreach my $file (@files) {
+    $file=$file.".tex" if !($file=~/(.sty$|.tex$ )/);
+    print "\\\n  ".$file ." ";
+    open(SRC, $file);
+    while (<SRC>) {
+        if (/^[^%]*\\includegraphics\{([^\}]*)\}/) {
+            print FixExt($1,$ARGV[0])." ";
+        };
+    }
+}
+

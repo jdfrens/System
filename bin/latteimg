@@ -1,0 +1,9 @@
+#!/usr/bin/perl -w
+
+use Image::Size;
+
+$img=shift;
+
+($width, $height) = imgsize($img);
+# print "{\\img \\width=$width \\height=$height \\src=$img}";
+print "<img width=\"$width\" height=\"$height\" src=\"$img\" alt=\"a picture\" />";

@@ -1,0 +1,18 @@
+#!/bin/bash
+
+ifile=agenda.latte
+ofile=${ifile%%.latte}.html
+
+echo processing latte file
+nolatte-html $ifile > $ofile
+chmod 644 $ofile
+
+p=`pwd`
+prefix=/srv/www2/htdocs
+dest=/department/curriculum/${p##*/}
+echo making directory $prefix$dest
+ssh cerf mkdir -p -m 755 $prefix$dest
+echo copying
+selectscp publish cerf:$prefix$dest $ofile
+
+echo http://cs.calvin.edu$dest/$ofile

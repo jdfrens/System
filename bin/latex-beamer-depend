@@ -1,0 +1,49 @@
+#!/usr/bin/perl -w
+#----------------------------------------------------------------------
+# A perl script to determine makefile dependencies for LaTeX documents.
+# The target name determines the type of extension to add to graphics
+# files.  If it is .pdf, the default extension is .mps, otherwise it
+# is .eps.
+#
+# S.J.Henriksen, 1999. emeth@dr.com
+# http://www.sjh.f2s.com/
+#----------------------------------------------------------------------
+
+use strict;
+use warnings;
+
+die "Usage:\n  $0 target\n" if $#ARGV<0;
+my $base = $ARGV[0];
+open(SRC, $base . ".tex");
+my @files = ();
+my @dependencies = ();
+while (<SRC>) {
+    if (/^[^%]*\\include\{([^\}]*)\}/) {
+        @files=(@files,$1);
+    }
+    if (/^[^%]*\\includegraphics(\[.*?\])\{([^\}]*)\}/) {
+        push @dependencies, $2;
+    }
+}
+printDependencies($base . ".pdf", @dependencies);
+printDependencies($base . "-handout.pdf", @dependencies);
+foreach my $file (@files) {
+    $file=$file.".tex" if !($file=~/(.sty$|.tex$ )/);
+    print "\\\n  ".$file ." ";
+    open(SRC, $file);
+    while (<SRC>) {
+        if (/^[^%]*\\includegraphics(\[.*?\])\{([^\}]*)\}/) {
+            print $2 . " ";
+        }
+    }
+}
+
+sub printDependencies {
+	my ($file, @dependencies) = @_;
+	print $file . ": ";
+	foreach my $dependent (@dependencies) {
+		print $dependent . " ";
+	}
+	print "\n";
+}
+

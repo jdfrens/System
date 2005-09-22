@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Obnoxious feature (some may call this a bug): all of the files are
+# copied to the destination, ignoring any directories that are part of
+# the original filename.  Issue separate commands with diferent
+# destinations for these files.
+
+let verbose=0
+if [ $1 = "-v" ]; then
+    let verbose=1
+    shift
+fi
+let sftp=0
+if [ $1 = "-sftp" ]; then
+    let sftp=1
+    shift
+fi
+
+base=$1
+shift
+dest=$1
+shift
+allfiles=$@
+copyfiles=
+
+if [ -e $base ]; then
+    for i in $allfiles; do
+	if [ $i -nt $base ]; then
+	    copyfiles="$copyfiles $i"
+	elif [ $verbose -eq 1 ]; then
+	    echo "No need to copy $i"
+	fi
+    done
+else
+    copyfiles=$allfiles
+fi
+
+if [ -n "$copyfiles" ]; then
+    if [ $sftp -eq 1 ]; then
+	multisftp $dest $copyfiles
+    else
+	scp -p $copyfiles $dest
+    fi
+fi
