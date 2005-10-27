@@ -11,14 +11,13 @@ POSTSCRIPT = ${HTML:.html=.ps}
 PUBLISH = $(HTML) $(PHP) $(OTHERS)
 
 process:
-	-make database
 	make depend
 	make html
 	make php
 
 publish: process $(PUBLISH)
 	chmod 644 $(PUBLISH)
-	selectscp publish $(DEST) $(PUBLISH)
+	selectscp $(SCP) publish $(DEST) $(PUBLISH)
 	touch publish
 
 html: $(HTML)
@@ -52,5 +51,5 @@ depend:
 	sldepend $(LATTE) $(LGEN) $(LATTE_PHP) $(LGEN_PHP)
 
 clobber:
-	rm -f $(HTML) $(PHP) $(POSTSCRIPT) $(LGEN) $(LGEN_PHP)
+	rm -f $(HTML) $(PHP) $(POSTSCRIPT) $(LGEN) $(LGEN_PHP) loaddefs.linc lattedependencies.mk
 

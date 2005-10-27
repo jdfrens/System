@@ -23,9 +23,12 @@ alias rm="/bin/rm -i"
 alias rmmpurge='pushd ~/Mail ; find . -name ",*" -print -exec rm {} \; ; popd'
 # cleans up (La)TeX files
 alias school="konsole -e ssh -l jfrens school.cs.indiana.edu"
+
+SVN_REPOSITORIES="~/Classes/ ~/Department/ ~/Personal/ ~/Projects/ ~/Research/ ~/System/" 
 alias svn-ignore='svn propedit svn:ignore .'
-alias svn-check='svn status ~/Classes/ ~/Projects/ ~/Personal/ ~/Department/'
+alias svn-check="svn status $SVN_REPOSITORIES"
 alias svn-clean='find ~/ -name "svn-commit*.tmp*" | xargs rm -f'
-alias svn-updates='svn update ~/Classes ~/Projects ~/Personal ~/System'
+alias svn-updates="svn update $SVN_REPOSITORIES"
+
 alias texclean="/bin/rm -f *.dvi *.log *.ps *.aux *.toc *.tof *.lof *.lot *.bbl *.blg *~"
 alias webclean='find . \( -name "*.html" -o -name "*.aux" -o -name "*pass" \) -exec rm \{} \;'
