@@ -1,0 +1,12 @@
+#!/usr/bin/perl -w
+
+my $dest = shift;
+if ($dest !~ /\:/) {
+  $dest .= ":" . shift;
+}
+
+open (CONNECTION, "| sftp $dest") || die;
+foreach my $file (@ARGV) {
+  print CONNECTION "put -P $file\n";
+}
+close CONNECTION;

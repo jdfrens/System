@@ -27,6 +27,7 @@ alias school="konsole -e ssh -l jfrens school.cs.indiana.edu"
 SVN_REPOSITORIES="~/Classes/ ~/Department/ ~/Personal/ ~/Projects/ ~/Research/ ~/System/" 
 alias svn-ignore='svn propedit svn:ignore .'
 alias svn-check="svn status $SVN_REPOSITORIES"
+alias svn-status=svn-check
 alias svn-clean='find ~/ -name "svn-commit*.tmp*" | xargs rm -f'
 alias svn-updates="svn update $SVN_REPOSITORIES"
 
