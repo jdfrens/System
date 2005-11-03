@@ -46,7 +46,7 @@ view: publish
 
 viewlocal: process
 	firefox $(VIEW)
-	
+
 depend:
 	sldepend $(LATTE) $(LGEN) $(LATTE_PHP) $(LGEN_PHP)
 
