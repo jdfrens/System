@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE MODE SYSTEM "xmode.dtd">
+
+<MODE>
+
+    <PROPS>
+        <PROPERTY NAME="lineComment" VALUE="\;" />
+				<PROPERTY NAME="lineUpClosingBrackets" VALUE="true"/>
+				<PROPERTY NAME="noWordSep" VALUE="_-+?" />
+    </PROPS>
+
+    <RULES IGNORE_CASE="FALSE" NO_WORD_SEP="-_+?">
+		
+		  <EOL_SPAN TYPE="COMMENT2">\;</EOL_SPAN>
+
+			<SEQ TYPE="KEYWORD1">\cond</SEQ>
+			<SEQ TYPE="KEYWORD1">\def </SEQ>
+			<SEQ TYPE="KEYWORD1">\if</SEQ>
+			<SEQ TYPE="KEYWORD1">\lambda</SEQ>
+			
+			<SEQ TYPE="KEYWORD2">\load-library</SEQ>
+			<SEQ TYPE="KEYWORD2">\include</SEQ>
+
+			<MARK_FOLLOWING TYPE="KEYWORD3">\&amp;</MARK_FOLLOWING>
+			<MARK_FOLLOWING TYPE="KEYWORD3">\=</MARK_FOLLOWING>
+			<MARK_FOLLOWING TYPE="KEYWORD3">\</MARK_FOLLOWING>
+			
+		</RULES>
+		
+</MODE>
