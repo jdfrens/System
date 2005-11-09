@@ -47,8 +47,11 @@ view: publish
 viewlocal: process
 	firefox $(VIEW)
 
+LATTE_DEPEND = sldepend
+LATTE_DEPEND_FLAGS = 
+
 depend:
-	sldepend $(LATTE) $(LGEN) $(LATTE_PHP) $(LGEN_PHP)
+	$(LATTE_DEPEND) $(LATTE_DEPEND_FLAGS) $(LATTE) $(LGEN) $(LATTE_PHP) $(LGEN_PHP)
 
 clobber:
 	rm -f $(HTML) $(PHP) $(POSTSCRIPT) $(LGEN) $(LGEN_PHP) loaddefs.linc lattedependencies.mk
