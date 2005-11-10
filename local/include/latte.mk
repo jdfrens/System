@@ -50,6 +50,8 @@ viewlocal: process
 LATTE_DEPEND = sldepend
 LATTE_DEPEND_FLAGS = 
 
+lattedependencies.mk: depend
+
 depend:
 	$(LATTE_DEPEND) $(LATTE_DEPEND_FLAGS) $(LATTE) $(LGEN) $(LATTE_PHP) $(LGEN_PHP)
 

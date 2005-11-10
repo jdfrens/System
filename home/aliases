@@ -2,27 +2,26 @@ alias caledonia="konsole -e ssh -l jfrens caledonia.cs.indiana.edu"
 alias cd..="cd .."
 alias cp="cp -i"
 alias clean="/bin/rm -f *.bak *~ .?*~ \#*\#"
+
 # dvips *prints* on Linux by default
 alias dvipsall='for i in *.dvi; do echo $i; dvips $i; done'
-#alias gjcr='java -ms12m gjc.Main -bootclasspath /home/jdfrens/gj/classes/:/usr/java1.2/jre/lib/rt.jar:/usr/java1.2/jre/lib/i18n.jar'
-# useful when telnetting
-alias home="export TERM=vt100 ; export LINES=50"
+
 alias ll="ls -hlF"
 alias lla="ls -algF"
 alias lo="logout"
 alias lpr="lpr -h"			# no burst page
 alias ls="ls -FC --color=always"	# C=multi-column, F=append[/*@]
+
 # printing for MH mail system, does not quite work under Linux
 alias mhprint="show -showproc cat | metamail | mp -l | lpr"
 alias mv="mv -i"
+alias mymake="make -I ~/System/local/include"
+
 # lists my procs on this machine
 alias procs="ps -ef | grep jdfrens"
+
 alias recclean="find . \( -name '*~' -o -name '.*~' -o -name 'svn*.tmp' \) -print -exec rm {} \;"
 alias rm="/bin/rm -i"
-# purges deleted messages in MH
-alias rmmpurge='pushd ~/Mail ; find . -name ",*" -print -exec rm {} \; ; popd'
-# cleans up (La)TeX files
-alias school="konsole -e ssh -l jfrens school.cs.indiana.edu"
 
 SVN_REPOSITORIES="~/Classes/ ~/Department/ ~/Personal/ ~/Projects/ ~/Research/ ~/System/" 
 alias svn-ignore='svn propedit svn:ignore .'
@@ -32,4 +31,5 @@ alias svn-clean='find ~/ -name "svn-commit*.tmp*" | xargs rm -f'
 alias svn-updates="svn update $SVN_REPOSITORIES"
 
 alias texclean="/bin/rm -f *.dvi *.log *.ps *.aux *.toc *.tof *.lof *.lot *.bbl *.blg *~"
+
 alias webclean='find . \( -name "*.html" -o -name "*.aux" -o -name "*pass" \) -exec rm \{} \;'
