@@ -10,8 +10,7 @@ POSTSCRIPT = ${HTML:.html=.ps}
 
 PUBLISH = $(HTML) $(PHP) $(OTHERS)
 
-process:
-	make depend
+process: lattedependencies.mk
 	make html
 	make php
 
