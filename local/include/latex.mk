@@ -59,7 +59,7 @@ COPY = if test -r $*.toc; then cp $*.toc $*.toc.bak; fi
 	egrep -i "(Reference|Citation).*undefined" $*.log ; true
 
 %.ps: %.dvi
-	$(DVIPS) -t letter -o $@ $<
+	$(DVIPS) -t letter $(DVIPS_FLAGS) -o $@ $<
 	
 %.pdf: %.ps
 	$(PS2PDF) $<
