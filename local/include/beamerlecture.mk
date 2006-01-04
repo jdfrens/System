@@ -21,7 +21,7 @@
 # ***********************************************************************
 # 1. Change the program variables at the beginning of this file as necessary.
 # 2. Use one of the following targets:
-#     display    - for the display version
+#     slides     - for the display version
 #     handout    - for the handout version
 #     handout2up - for the handout version with 2 slides per page
 #     handout4up - for the handout version with 4 slides per page
@@ -64,12 +64,10 @@ SLIDES = $(TITLE).pdf
 READ = $(SLIDES)
 
 # targets
-all: display handout
+all: slides handout
 
 read: $(READ)
 	$(OPENPDF) $(READ)
-
-display:
 
 slides: $(SLIDES)
 
