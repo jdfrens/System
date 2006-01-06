@@ -57,10 +57,10 @@ COPY = if test -r $*.toc; then cp $*.toc $*.toc.bak; fi
 
 .SECONDARY:
 
-HANDOUT = $(TITLE)-handout
-HANDOUT4UP = $(HANDOUT)-4x
-HANDOUT2UP = $(HANDOUT)-2x
-SLIDES = $(TITLE).pdf
+HANDOUT = ${TITLE:.tex=-handout.tex}
+HANDOUT4UP = ${TITLE:.tex=-handout-4x.tex}
+HANDOUT2UP = ${TITLE:.tex=-handout-2x.tex}
+SLIDES = ${TITLE:.tex=.pdf}
 READ = $(SLIDES)
 
 # targets
@@ -78,12 +78,12 @@ handout: $(HANDOUT).pdf
 handout4up: $(HANDOUT4UP).pdf
 handout2up: $(HANDOUT2UP).pdf
 
-$(HANDOUT).tex: $(TITLE).tex
+$(HANDOUT):
 	beamerhandout < $(TITLE).tex > $(HANDOUT).tex
 
-$(HANDOUT4UP).tex: $(HANDOUT).tex $(HANDOUT).pdf
+$(HANDOUT4UP):
 	pdf4up $(HANDOUT) > $(HANDOUT4UP).tex
-$(HANDOUT2UP).tex: $(HANDOUT).tex $(HANDOUT).pdf
+$(HANDOUT2UP):
 	pdf2up $(HANDOUT) > $(HANDOUT2UP).tex
 
 clean:
