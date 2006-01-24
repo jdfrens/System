@@ -57,10 +57,13 @@ COPY = if test -r $*.toc; then cp $*.toc $*.toc.bak; fi
 
 .SECONDARY:
 
-HANDOUT = ${TITLE:.tex=-handout.tex}
-HANDOUT4UP = ${TITLE:.tex=-handout-4x.tex}
-HANDOUT2UP = ${TITLE:.tex=-handout-2x.tex}
-SLIDES = ${TITLE:.tex=.pdf}
+HANDOUT_TEX_FILES = ${BEAMER_FILES:.tex=-handout.tex}
+HANDOUT_FILES = ${BEAMER_FILES:.tex=-handout.pdf}
+HANDOUT4UP_TEX_FILES = ${BEAMER_FILES:.tex=-handout-4x.tex}
+HANDOUT4UP_FILES = ${BEAMER_FILES:.tex=-handout-4x.pdf}
+HANDOUT2UP_TEX_FILES = ${BEAMER_FILES:.tex=-handout-2x.tex}
+HANDOUT2UP_FILES = ${BEAMER_FILES:.tex=-handout-2x.pdf}
+SLIDES = ${BEAMER_FILES:.tex=.pdf}
 READ = $(SLIDES)
 
 # targets
@@ -71,20 +74,20 @@ read: $(READ)
 
 slides: $(SLIDES)
 
-handout: $(HANDOUT).pdf
+handout: $(HANDOUT_FILES)
 
 4up: handout4up
 2up: handout2up
-handout4up: $(HANDOUT4UP).pdf
-handout2up: $(HANDOUT2UP).pdf
+handout4up: $(HANDOUT4UP_FILES)
+handout2up: $(HANDOUT2UP_FILES)
 
-$(HANDOUT):
-	beamerhandout < $(TITLE).tex > $(HANDOUT).tex
+%-handout.tex: %.tex
+	beamerhandout < $< > $@
 
-$(HANDOUT4UP):
-	pdf4up $(HANDOUT) > $(HANDOUT4UP).tex
-$(HANDOUT2UP):
-	pdf2up $(HANDOUT) > $(HANDOUT2UP).tex
+%-handout-4x.tex: %-handout.tex
+	pdf4up $< > $@
+%-handout-2x.tex: %-handout.tex
+	pdf2up $< > $@
 
 clean:
 	$(RM) *.aux *.log *.bbl *.blg *.brf *.cb *.ind *.idx *.ilg  \
@@ -100,6 +103,4 @@ clobber: clean
 %.png: %.dia
 	dia -e $@ $<
 $(SLIDES): $($(wildcard *.dia):.dia=.eps)
-$(TEMPHANDOUT).pdf: $($(wildcard *.dia):.dia=.eps)
-$(HANDOUT).pdf: $($(wildcard *.dia):.dia=.eps)
 
