@@ -1,0 +1,6 @@
+#!/bin/bash
+
+for i in $SVN_REPOSITORIES; do
+	echo $i
+	svn update ~/$i
+done
