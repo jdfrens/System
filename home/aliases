@@ -1,4 +1,3 @@
-alias caledonia="konsole -e ssh -l jfrens caledonia.cs.indiana.edu"
 alias cd..="cd .."
 alias cp="cp -i"
 alias clean="/bin/rm -f *.bak *~ .?*~ \#*\#"
@@ -8,12 +7,9 @@ alias dvipsall='for i in *.dvi; do echo $i; dvips $i; done'
 
 alias ll="ls -hlF"
 alias lla="ls -algF"
-alias lo="logout"
 alias lpr="lpr -h"			# no burst page
 alias ls="ls -FC --color=always"	# C=multi-column, F=append[/*@]
 
-# printing for MH mail system, does not quite work under Linux
-alias mhprint="show -showproc cat | metamail | mp -l | lpr"
 alias mv="mv -i"
 alias mymake="make -I ~/System/local/include"
 
@@ -23,12 +19,9 @@ alias procs="ps -ef | grep jdfrens"
 alias recclean="find . \( -name '*~' -o -name '.*~' -o -name 'svn*.tmp' \) -print -exec rm {} \;"
 alias rm="/bin/rm -i"
 
-SVN_REPOSITORIES="~/Classes/ ~/Department/ ~/Personal/ ~/Projects/ ~/Research/ ~/System/" 
+export SVN_REPOSITORIES="Classes Department Personal Projects Research System" 
 alias svn-ignore='svn propedit svn:ignore .'
-alias svn-check="svn status $SVN_REPOSITORIES"
-alias svn-status=svn-check
 alias svn-clean='find ~/ -name "svn-commit*.tmp*" | xargs rm -f'
-alias svn-updates="svn update $SVN_REPOSITORIES"
 
 alias texclean="/bin/rm -f *.dvi *.log *.ps *.aux *.toc *.tof *.lof *.lot *.bbl *.blg *~"
 
