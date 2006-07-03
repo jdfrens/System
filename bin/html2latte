@@ -1,0 +1,117 @@
+#!/usr/bin/perl -w
+
+while (<>) {
+  chomp;
+  if (/doctype/i) {
+    print "\n";
+  }
+  else {
+    
+    s/\\/\\\\/g;
+    s/\<!--(.*)--\>//gi;
+    # these must be done first so that the introduced curly braces
+    # aren't also changed!
+    s/\{/\\\{/gi;
+    s/\}/\\\}/gi;
+    
+    s/\&amp\;/\&/gi;
+    s/\&lt\;/\</gi;
+    s/\&gt\;/\>/gi;
+    s/\&nbsp\;/\{\\c-nbsp\}/gi;
+    
+    s/\<\!\-\-/\{\\comment /gi;
+    s/\-\-\>/\}/gi;
+    
+    s/\<address\>/\{\\address /gi;
+    s/\<\/address\>/\}/gi;
+    s/\<a/\{\\a /gi;
+    s/\<\/a\>/\}/gi;
+    s/align=\"?(\w+)\"?/\\align=$1/gi;
+    
+    s/\<b\>/\{\\strong /gi;
+    s/\<\/b\>/\}/gi;
+    s/\<blockquote\>/\{\\blockquote /gi;
+    s/\<\/blockquote\>/\}/gi;
+    s/bgcolor\=\"(.*)\"/\\bgcolor\=$1/gi;
+    s/\<body/\{\\my-body /gi;
+    s/\<\/body\>/\}/gi;
+    s/borderless/\\border=0/gi;
+    s/border=(\d+)/\\border=$1/gi;
+    s/\<br\>/\{\\br\}/gi;
+    
+    s/\<center\>/\{\\center /gi;
+    s/\<\/center\>/\}/gi;
+    
+    s/\<dd\>/\{\\dd /gi;
+    s/\<\/dd\>/\}/gi;
+    s/\<dl\>/\{\\dl /gi;
+    s/\<\/dl\>/\}/gi;
+    s/\<dt\>/\{\\dt /gi;
+    s/\<\/dt\>/\}/gi;
+    
+    s/\<em\>/\{\\em /gi;
+    s/\<\/em\>/\}/gi;
+    
+    s/\<font size/\{\\font \\size/gi;
+    s/\<font\>/\{\\font /gi;
+    s/\<\/font\>/\}/gi;
+    
+    s/\<hr\>/\{\\hr\}/gi;
+    s/\<h(.)\>/\{\\h$1 /gi;
+    s/\<\/h.\>/\}/gi;
+    s/\<head\>//gi;
+    s/\<\/head\>//gi;
+    s/height=\"?(\d+)\"?/\\height=$1/gi;
+    s/href\=\"(.*)\"/\\href\=$1/gi;
+    s/\<html\>//gi;
+    s/\<\/html\>//gi;
+    
+    s/\<i\>/\{\\i /gi;
+    s/\<\/i\>/\}/gi;
+    s/\<img/\{\\img /gi;
+    s/\<\/img\>/\}/gi;
+    
+    s/\<li\>/\{\\li /gi;
+    s/\<\/li\>/\}/gi;
+    
+    s/\<menu\>/\{\\menu /gi;
+    s/\<\/menu\>/\}/gi;
+    s/\<meta/\{\\meta /gi;
+    
+    s/\<ol\>/\{\\ol /gi;
+    s/\<\/ol\>/\}/gi;
+    
+    s/\<p\>//gi;
+    s/\<\/p\>//gi;
+    s/\<pre\>/\{\\pre /gi;
+    s/\<\/pre\>/\}/gi;
+    
+    s/src=\"(\S+)\"/\\src=$1/gi;
+    s/\<strong\>/\{\\strong /gi;
+    s/\<\/strong\>/\}/gi;
+    
+    s/\<table/\{\\table /gi;
+    s/\<\/table\>/\}/gi;
+    s/target\=\"(.*)\"//gi;
+    s/\<title\>/\{\\title /gi;
+    s/\<\/title\>/\}/gi;
+    s/\<td\>/\{\\td /gi;
+    s/\<\/td\>/\}/gi;
+    s/\<th\>/\{\\th /gi;
+    s/\<\/th\>/\}/gi;
+    s/\<tr\>?/\{\\tr /gi;
+    s/\<\/tr\>/\}/gi;
+    s/\<tt\>/\{\\code /gi;
+    s/\<\/tt\>/\}/gi;
+    
+    s/\<u\>/\{\\u /gi;
+    s/\<\/u\>/\}/gi;
+    s/\<ul\>/\{\\ul /gi;
+    s/\<\/ul\>/\}/gi;
+    
+    s/width=\"?(\d+)\"?/\\width=$1/gi;
+
+    print "$_\n";
+    
+  }
+}

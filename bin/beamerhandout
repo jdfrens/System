@@ -1,0 +1,16 @@
+#!/usr/bin/perl -w
+
+# This program is so stupid/simple, it doesn't seem worthwhile to copyright at
+# all.  But I provide it with no warranty.
+# Jeremy D. Frens <jdfrens@calvin.edu>
+
+use strict;
+use warnings;
+
+my $firstLine = <>;
+$firstLine =~ s/\[(.*)\]/\[handout,$1\]/;
+print $firstLine;
+while (<>) {
+  print $_;
+}
+

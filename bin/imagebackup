@@ -1,0 +1,10 @@
+#!/bin/bash
+
+backup=/scratch/images-`date +%Y-%m-%d`.tgz
+
+# do real backup
+pushd $HOME
+time tar cvzf $backup Pictures/
+ls -lh $backup
+scp $backup holmes:Backup/macjdfrens/
+popd
