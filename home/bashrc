@@ -91,3 +91,6 @@ export NETHACKOPTIONS='autopickup,pickup_types:$,name:Reagan,pettype:dog,dogname
 source $HOME/.aliases
 [ -f /etc/profile.d/bash-completion ] && . /etc/profile.d/bash-completion
 [ -f /usr/share/cdargs/cdargs-bash.sh ] && source /usr/share/cdargs/cdargs-bash.sh
+
+# this will ignore .svn and other hidden files when doing file completion
+bind 'set match-hidden-files off'
