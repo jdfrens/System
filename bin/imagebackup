@@ -6,5 +6,5 @@ backup=/scratch/images-`date +%Y-%m-%d`.tgz
 pushd $HOME
 time tar cvzf $backup Pictures/
 ls -lh $backup
-scp $backup holmes:Backup/macjdfrens/
+scp $backup acolyte:Backup/macjdfrens/
 popd
