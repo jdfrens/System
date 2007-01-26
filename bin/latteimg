@@ -4,6 +4,11 @@ use Image::Size;
 
 $img=shift;
 
-($width, $height) = imgsize($img);
-# print "{\\img \\width=$width \\height=$height \\src=$img}";
-print "<img width=\"$width\" height=\"$height\" src=\"$img\" alt=\"a picture\" />";
+if ( -f $img ) {
+    ($width, $height) = imgsize($img);
+    # print "{\\img \\width=$width \\height=$height \\src=$img}";
+    print "<img width=\"$width\" height=\"$height\" src=\"$img\" alt=\"a picture\" />";
+} else {
+    print "<span>Bad file name: $img</span>";
+    exit -1;
+}
