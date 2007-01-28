@@ -1,5 +1,7 @@
 #!/bin/bash
 
-for i in CCEL-Desktop* NoLatte; do
-  find "./$i" \( -name "*.java" -o -name "*.jsp" \) -print0 | xargs -0 grep -c "GNU General Public License" | grep 0
+for i in CCEL-Desktop* NoLatte 'No Latte'; do
+  if [ -d "$i" ]; then
+    find "./$i" \( -name "*.java" -o -name "*.jsp" \) -print0 | xargs -0 grep -c "GNU General Public License" | grep 0
+  fi
 done
