@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><templates><template autoinsert="false" context="newtype_context" deleted="false" description="Newly created files" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.newtype" name="newtype">${package_declaration}
-
-${type_declaration}
-
-/* $$Date$$ */
-/* $$RCSfile$$ */
-/* $$Author$$ */
-/* $$Revision$$ */
-</template></templates>

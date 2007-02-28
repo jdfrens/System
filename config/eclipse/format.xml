@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <profiles version="10">
 <profile name="Jeremy's favorites" version="10">
 <setting id="org.eclipse.jdt.core.formatter.align_type_members_on_columns" value="true"/>
