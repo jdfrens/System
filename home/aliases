@@ -16,7 +16,7 @@ alias mymake="make -I ~/System/local/include"
 # lists my procs on this machine
 alias procs="ps -ef | grep jdfrens"
 
-alias recclean="find . \( -name '*~' -o -name '.*~' -o -name 'svn*.tmp' \) -print -exec rm {} \;"
+alias recclean="find . \( -name '*~' -o -name '.*~' -o -name '*.bak' -o -name 'svn*.tmp' \) -print -exec rm {} \;"
 alias rm="/bin/rm -i"
 
 export SVN_REPOSITORIES="Classes Department Personal Projects Research System" 
