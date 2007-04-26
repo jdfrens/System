@@ -22,7 +22,6 @@
 ${type_declaration}
 
 /* $$Date$$ */
-/* $$RCSfile$$ */
 /* $$Author$$ */
 /* $$Revision$$ */
 </template><template autoinsert="true" context="classbody_context" deleted="false" description="Code in new class type bodies" enabled="true" id="org.eclipse.jdt.ui.text.codetemplates.classbody" name="classbody">
