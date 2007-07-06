@@ -1,18 +1,16 @@
 .DELETE_ON_ERROR:
 
 .SUFFIXES:
-.SUFFIXES: .gif .jpg .latte .lgen .html .pdf .php .ps
+.SUFFIXES: .gif .jpg .latte .lgen .html .pdf .ps
 
 HTML = ${LATTE:.latte=.html} ${LGEN:.lgen=.html}
-PHP  = ${LATTE_PHP:.latte=.php} ${LGEN_PHP:.lgen=.php}
 
 POSTSCRIPT = ${HTML:.html=.ps}
 
-PUBLISH = $(HTML) $(PHP) $(OTHERS)
+PUBLISH = $(HTML) $(OTHERS)
 
 process: lattedependencies.mk
 	make html
-	make php
 
 publish: process $(PUBLISH)
 	chmod 644 $(PUBLISH)
@@ -20,8 +18,6 @@ publish: process $(PUBLISH)
 	touch publish
 
 html: $(HTML)
-
-php: $(PHP)
 
 postscript: $(POSTSCRIPT)
 
@@ -31,14 +27,8 @@ postscript: $(POSTSCRIPT)
 .latte.html:
 	nolatte-html $< > $@ 
 
-.latte.php:
-	nolatte-php $< > $@ 
-
 .lgen.html:
 	nolatte-html $< > $@ 
-
-.lgen.php:
-	nolatte-php $< > $@ 
 
 view: publish
 	firefox $(URL)$(VIEW)
@@ -52,8 +42,7 @@ LATTE_DEPEND_FLAGS =
 lattedependencies.mk: depend
 
 depend:
-	$(LATTE_DEPEND) $(LATTE_DEPEND_FLAGS) $(LATTE) $(LGEN) $(LATTE_PHP) $(LGEN_PHP)
+	$(LATTE_DEPEND) $(LATTE_DEPEND_FLAGS) $(LATTE) $(LGEN)
 
 clobber:
-	rm -f $(HTML) $(PHP) $(POSTSCRIPT) $(LGEN) $(LGEN_PHP) loaddefs.linc lattedependencies.mk
-
+	rm -f $(HTML) $(POSTSCRIPT) $(LGEN) loaddefs.linc lattedependencies.mk
