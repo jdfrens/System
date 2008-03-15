@@ -1,0 +1,26 @@
+ForwardX11 yes
+
+Host udu
+HostName udu.calvin.edu
+User jdfrens
+
+Host yardley
+HostName yardley.calvin.edu
+User jdfrens
+
+Host cs-ssh
+HostName cs-ssh.calvin.edu
+User jdfrens
+
+Host mcjdfrens
+HostName mcjdfrens.calvin.edu
+User jdfrens
+
+Host csforge
+HostName csforge.calvin.edu
+User jdfrens
+
+Host mcohm
+HostName ohm-master3.calvin.edu
+User jdfrens
+
