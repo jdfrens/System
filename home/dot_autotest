@@ -13,30 +13,39 @@ module Autotest::Growl
     system "growlnotify -n autotest --image #{img} -p #{pri} -m #{msg.inspect} #{title}"
   end
 
+  def self.growl_pass()
+    growl "Tests Passed", "Tests passed", "#{IMAGE_ROOT}/pass.png"
+  end
+
+  def self.growl_fail(scale)
+    growl "Tests Failed", "Boo!", "#{IMAGE_ROOT}/fail#{scale}.png"
+  end
+
   IMAGE_ROOT = "~/.autotest_images"
 
   Autotest.add_hook :initialize do  |at|
-    growl "autotest running", "Started", "#{IMAGE_ROOT}/pass.png"
+    growl "autotest initializing", "Started", "#{IMAGE_ROOT}/pass.png"
   end
 
-  Autotest.add_hook :red do |at|
-#     failures = $~[3].to_i
-#     errors = $~[4].to_i
-#     cnt = [(9 + failures + errors) / 10 * 10, 50].min
-#     growl "FAIL", "#{output}", "#{image_root}/fail#{cnt}.png"
-    output = results.slice(/(\d+)\s*examples,\s*(\d+)\s*failures/)
-    failures = $~[2].to_i
-    cnt = [(9 + failures) / 10 * 10, 50].min
-    growl "Tests Failed", "#{at.files_to_test.size} tests failed", "#{IMAGE_ROOT}/fail#{cnt}.png"
+  Autotest.add_hook :reset do |at|
+    growl "autotest resetting", "Reset", "#{IMAGE_ROOT}/pass.png"
   end
 
-  Autotest.add_hook :green do |at|
-    growl "Tests Passed", "Tests passed", "#{IMAGE_ROOT}/pass.png" if at.tainted
+  Autotest.add_hook :ran_command do |at|
+    m = /(\d+).*examples?.*(\d+).*failures?/.match(at.results.last)
+    if m
+      example_count, failure_count = m[1].to_i, m[2].to_i
+      if failure_count == 0
+        growl_pass
+      else
+        scale = [(9 + failure_count) / 10 * 10, 50].min
+        growl_fail scale
+      end
+    end
   end
 
-  Autotest.add_hook :all_good do |at|
-    growl "Tests Passed", "All tests passed", "#{IMAGE_ROOT}/pass.png" if at.tainted
-  end
+
+
 
   Autotest.add_hook :initialize do |at|
     %w{.hg .git .svn config test nbproject stories log vendor public script db Rakefile Capfile README spec/spec.opts spec/rcov.opts autotest svn-commit .DS_Store }.each do |exception|
