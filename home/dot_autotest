@@ -17,11 +17,15 @@ module Autotest::Growl
     growl "Tests Passed", "Tests passed", "#{IMAGE_ROOT}/pass.png"
   end
 
-  def self.growl_fail(scale)
-    growl "Tests Failed", "Boo!", "#{IMAGE_ROOT}/fail#{scale}.png"
+  def self.growl_pending(count)
+    growl "Tests Pending", "#{count} tests pending", "#{IMAGE_ROOT}/pending.png"
   end
 
-  IMAGE_ROOT = "~/.autotest_images"
+  def self.growl_fail(count, scale)
+    growl "Tests Failed", "#{count} tests failed", "#{IMAGE_ROOT}/fail#{scale}.png"
+  end
+
+  IMAGE_ROOT = "~/.autotest_images/smileys"
 
   Autotest.add_hook :initialize do  |at|
     growl "autotest initializing", "Started", "#{IMAGE_ROOT}/pass.png"
@@ -32,14 +36,16 @@ module Autotest::Growl
   end
 
   Autotest.add_hook :ran_command do |at|
-    m = /(\d+).*examples?.*(\d+).*failures?/.match(at.results.last)
+    m = /(\d+).*examples?.*(\d+).*failures?(.*(\d+).*pending)?/.match(at.results.last)
     if m
-      example_count, failure_count = m[1].to_i, m[2].to_i
-      if failure_count == 0
-        growl_pass
-      else
+      failure_count, pending_count = m[2].to_i, m[4].to_i
+      if failure_count != 0
         scale = [(9 + failure_count) / 10 * 10, 50].min
-        growl_fail scale
+        growl_fail failure_count, scale
+      elsif pending_count != 0
+        growl_pending pending_count
+      else
+        growl_pass
       end
     end
   end
