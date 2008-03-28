@@ -35,6 +35,10 @@ module Autotest::Growl
     growl "autotest resetting", "Reset", "#{IMAGE_ROOT}/pass.png"
   end
 
+  Autotest.add_hook :quit do |at|
+    growl "autotest quitting", "Quit!", "#{IMAGE_ROOT}/fail.png"
+  end
+
   Autotest.add_hook :ran_command do |at|
     m = /(\d+).*examples?.*(\d+).*failures?(.*(\d+).*pending)?/.match(at.results.last)
     if m
