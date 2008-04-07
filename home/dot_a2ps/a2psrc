@@ -1,0 +1,19 @@
+# default options
+Options: --medium=Letter --prologue=fixed
+
+# overhead options
+# using 69 lines puts it in line with 2up printing, but the font is
+# considerably smaller...
+UserOption: overhead -1 -L 69
+
+# CSS options
+UserOption: CSS --pretty-print=css
+
+# HTML options
+UserOption: HTML --delegate=no --pretty-print=html
+
+# PHP options
+UserOption: PHP --delegate=no --pretty-print=php
+
+# conf options
+UserOption: conf --pretty-print=shell
