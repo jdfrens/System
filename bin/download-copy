@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+pushd ~/Downloads
+
+# move Calvin & Hobbes
+mv ch*.gif ~/Personal/Comics/CalvinHobbes/
+
+# Garfield Minus Garfield
+mv fSyms*.gif ~/Personal/Comics/Garfield-Garfield
+
+popd
