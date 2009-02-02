@@ -9,11 +9,14 @@ POSTSCRIPT = ${HTML:.html=.ps}
 
 PUBLISH = $(HTML) $(OTHERS)
 
+DEST = $(MACHINE):$(DIRECTORY)
+
 process: lattedependencies.mk
-	make html
+	$(MAKE) html
 
 publish: process $(PUBLISH)
 	chmod 644 $(PUBLISH)
+	ssh $(MACHINE) "mkdir -m 755 -p $(DIRECTORY)"
 	selectscp $(SCP) publish $(DEST) $(PUBLISH)
 	touch publish
 
@@ -39,10 +42,8 @@ viewlocal: process
 LATTE_DEPEND = sldepend
 LATTE_DEPEND_FLAGS = 
 
-lattedependencies.mk: depend
-
-depend:
+lattedependencies.mk: $(LATTE) $(LGEN)
 	$(LATTE_DEPEND) $(LATTE_DEPEND_FLAGS) $(LATTE) $(LGEN)
 
 clobber:
-	rm -f $(HTML) $(POSTSCRIPT) $(LGEN) loaddefs.linc lattedependencies.mk
+	$(RM) $(HTML) $(POSTSCRIPT) $(LGEN) loaddefs.linc lattedependencies.mk
