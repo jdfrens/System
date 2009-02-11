@@ -60,7 +60,7 @@ COPY = if test -r $*.toc; then cp $*.toc $*.toc.bak; fi
 
 %.ps: %.dvi
 	$(DVIPS) -t letter $(DVIPS_FLAGS) -o $@ $<
-	
+
 %.pdf: %.ps
 	$(PS2PDF) $<
 

@@ -103,4 +103,3 @@ clobber: clean
 %.png: %.dia
 	dia -e $@ $<
 $(SLIDES): $($(wildcard *.dia):.dia=.eps)
-
