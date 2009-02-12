@@ -1,0 +1,20 @@
+[user]
+	name = Jeremy D. Frens
+	email = jdfrens@gmail.com
+[color]
+	status = auto
+	branch = auto
+[github]
+	user = jdfrens
+[alias]
+	co = checkout
+	st = status
+	stage = add
+	changes=diff --name-status -r
+[core]
+	# search for core.pager in
+	# <http://www.kernel.org/pub/software/scm/git/docs/git-config.html>
+	# to see why we use this convoluted syntax
+	pager = less -$LESS -SFRX -SR +'/^---'
+[branch]
+	autosetupmerge = true
