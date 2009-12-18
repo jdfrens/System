@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+
+# Obtained from
+# http://outofti.me/post/111117383/a-15-line-alternative-to-multiruby
+
+require 'rubygems'
+gem 'escape'
+require 'escape'
+
+File.open(File.join(ENV['HOME'], '.rubies')) do |file|
+  file.each_line do |bin|
+    bin.sub!(/\n$/, '')
+    STDERR.puts("Executing in #{`#{Escape.shell_command([bin, '-v'])}`}")
+    fork do
+      exec(Escape.shell_command([bin].concat(ARGV)))
+    end
+    Process.wait
+  end
+end

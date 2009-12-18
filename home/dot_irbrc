@@ -1,0 +1,12 @@
+require 'rubygems'
+require 'wirble'
+require 'utility_belt'
+require 'sketches'
+
+Wirble.init
+Wirble.colorize
+
+Sketches.config :editor => 'mate'
+
+require 'boson'
+Boson.start

@@ -4,6 +4,9 @@
 #   Jeremy D. Frens (jdfrens@acm.org)    24 June 1996
 # Modified minorly for RedHat Linux at NWC:
 #   Jeremy D. Frens (jdfrens@acm.org)    July/August 1999
+# Modified many times since by Jeremy.
+# Some ideas borrowed from Ryan Bates
+#   http://github.com/ryanb/dotfiles
 
 # .bashrc 
 #
@@ -16,7 +19,6 @@
 # Set some shell options
 
 set -o emacs			# use emacs command-line editing.
-# set -o notify			# notify when a process exits
 umask 077			# allow no one to read my files
 ulimit -c 0			# limit COREFILESIZE to zero
 
@@ -26,8 +28,6 @@ ulimit -c 0			# limit COREFILESIZE to zero
 export TMOUT=0			# don't log me out for lack of activity
 export LINK_TIMEOUT=3		# wait three minutes for nfs timeouts
 export PS1='[\h:\w]\n\$ '		# make my main prompt pretty
-
-PATH=$HOME/j2sdk1.5.0/bin:/usr/X11R6.3/bin:/usr/local/bin:/usr/games:/usr/ucb:$HOME/bin:$PATH:$HOME/local/bin:$HOME/bin/ant/bin:.
 
 #
 # Bash keeps the current directory in the variable PWD.  If we
@@ -72,31 +72,8 @@ HISTCONTROL=ignoredups
 
 set +a			# stop auto-exporting
 
-#
-# Determine the hostnamme.
-
-# Why?
-# HOST=$(hostname)
-# HOST=${HOST%%.*}	# get rid of the domain if we get one
-# export HOST
-
-# Get rid of the long directory name for the home directory
-# in the prompt
-cd .
-
 export NETHACKOPTIONS='autopickup,pickup_types:$,name:Reagan,pettype:dog,dogname:Bob,rest_on_space,number_pad'
 
-#
-# Define some handy aliases
-source $HOME/.aliases
-[ -f /etc/profile.d/bash-completion ] && . /etc/profile.d/bash-completion
-[ -f /usr/share/cdargs/cdargs-bash.sh ] && source /usr/share/cdargs/cdargs-bash.sh
-
-# from nedric.org, for 'wd'
-export WDHOME=$HOME/.wd
-source $WDHOME/wdaliases.sh
-
-# this will ignore .svn and other hidden files when doing file completion
-bind 'set match-hidden-files off'
-
-export LATTE_PATH=/home/jdfrens/lib/nolatte
+source ~/.bash/paths
+source ~/.bash/aliases
+source ~/.bash/completions

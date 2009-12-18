@@ -58,15 +58,9 @@
 ;; copied those files into your own directory and added your directory
 ;; here.
 (setq load-path (append (list
-			 "/home/jdfrens/lib/emacs/lisp/"
-			 "/home/jdfrens/local/share/emacs/site-lisp/"
+			 "/usr/local/share/emacs/site-lisp/"
 			 )
 			load-path))
-
-;; -------- Libraries ---------
-
-;; This is such a major kludge.
-; (load-file "/usr/share/emacs/20.3/lisp/ispell.el")
 
 ;; -------- Global Defaults and Preferences --------
 
@@ -129,28 +123,6 @@
 ;; OPTIONAL: if you don't use a particular program (like noweb), you
 ;; can safely remove the settings from that program's section.
 
-; ---- Noweb
-
-(autoload 'noweb-mode "noweb-mode" "Editing noweb files." t)
-(defun noweb-filenames ()
-  "Discards some file extensions for automatic completion."
-  (interactive)
-  (progn
-    (setq completion-ignored-extensions 
-	  (append '(".c" ".C" ".h" ".defs" ".tex")
-		  completion-ignored-extensions))))
-(add-hook 'noweb-hook
-	  (function (lambda ()
-		      (setq completion-ignored-extensions 
-			    (append '(".c" ".C" ".h" ".defs" ".tex")
-				    completion-ignored-extensions)))))
- 
-
-; ---- Printing
-
-;; TODO: Need to test printing from emacs on NWC machines
-
-
 ; ---- Man mode
 
 (setq manual-program "/usr/bin/man")
@@ -185,18 +157,6 @@
   ;; html-insert-matching-tag defined below
   (local-set-key "\C-c]" 'html-insert-matching-tag)
   )
-
-; ---- HTML mode
-
-;; (autoload 'html-mode "html-mode" "Yay HTML" t)
-;; This is more OPTIONAL than these others.  See
-;; http://www.imatrix.com to learn more about htmlpp
-;; (autoload 'htmlpp-mode "htmlpp" "It's a minor mode" t)
-
-; ---- Latte mode
-;      See www.latte.org for the most amazing HTML generator ever!
-
-(autoload 'latte-mode "latte" "Latte mode" t)
 
 ; ---- LaTeX mode
 ;; This is based on auctex, which is the most amazing emacs mode known
@@ -233,10 +193,6 @@
   (setq fill-column 76)		; where auto-fill should wrap
   (turn-on-auto-fill))
 (add-hook 'matlab-mode-hook 'my-matlab-mode-hook)
-
-; ---- PHP mode
-(require 'php-mode)
-(add-hook 'php-mode-user-hook 'turn-on-font-lock)
 
 ; ---- Scheme mode 
 
@@ -314,7 +270,6 @@ More information can be found in the documentation for font-lock-keywords")
 			 ("\\.java$" . java-mode)
 			 ("\\.pizza$" . java-mode)
 			 ("\\.html$" . html-mode)
-			 ("\\.php$" . php-mode)
 			 ;; ("\\.htp$" . html-helper-mode)
 			 ("\\.tex$" . latex-mode)
 			 ("\\.latte$" . latte-mode)
@@ -326,56 +281,6 @@ More information can be found in the documentation for font-lock-keywords")
       (append '(".so" ".class" ".aux" ".log" ".dvi" ".ps")
 	      completion-ignored-extensions))
 
-
-;; ----------------------------------
-;; VERY OPTIONAL
-;; Jeremy's email signer.
-;;
-;; Unless you are using MH or some other email system where you can
-;; enter the signature manually yourself, this is of absolutely no
-;; interest to you, and you should remove it.  If I were a better
-;; person, I'd put it into its own file in my own lib directory.
-;; 
-;; This function adds my signature to a mail message while I have it
-;; in emacs.  It also cycles through my signature files to pull in a
-;; new quote every time I run it.
-;;
-;; "/home/jdfrens/signatures/number.sig" is a file with two numbers in it.
-;; The first number is the number of the current signature; the second
-;; number is the total number of signatures.  It is ESSENTIAL that the
-;; two numbers appear on separate lines and that the current number
-;; appear first.  These numbers do NOT have to be a full three digits
-;; (see the next paragraph).
-;;
-;; The signatures should be stored in files of the form "sigXXX" where
-;; "XXX" is replaced by a three digit number.  It is ESSENTIAL that
-;; the numbering start with 001 and go up consecutively.
-(defun sign-mail ()
-  "Signs a mail message."
-  (interactive)
-  (save-excursion
-    ;; (goto-char (point-max))
-    (insert "jdf\n\n----\n")
-    (insert "***  Jeremy D. Frens --- Professor of Computer Science --- Calvin College ***\n")
-    (let ((buffer (find-file-noselect "/home/jdfrens/signatures/number.sig")))
-      (let* ((current (read buffer))
-	     (total (read buffer)))
-	(insert-file (format "/home/jdfrens/signatures/sig%03d" current))
-	(set-buffer buffer)
-	(goto-char (point-min))
-	(kill-line)
-	(insert (number-to-string (% (+ current 1) total)))
-	(write-file "/home/jdfrens/signatures/number.sig" nil)
-	(kill-buffer buffer)
-	))))
-
-(defun sign-mail-formal ()
-  "Signs a formal mail message."
-  (interactive)
-  (progn
-    (insert "Sincerely,\nJeremy D. Frens\n")
-    (insert-file "/home/jdfrens/.formalsignature")
-    (insert "\n----\n")))
 
 ;; ---- Erik's HTML matching tag function
 (defun html-insert-matching-tag ()
@@ -457,3 +362,9 @@ More information can be found in the documentation for font-lock-keywords")
  '(query-user-mail-address nil)
  '(font-lock-mode t nil (font-lock)))
 (custom-set-faces)
+
+;; Ruby stuff
+(autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
+(setq auto-mode-alist  (cons '(".rb$" . ruby-mode) auto-mode-alist))
+(setq auto-mode-alist  (cons '(".rhtml$" . html-mode) auto-mode-alist))
+(setq auto-mode-alist  (cons '("^Rakefile$" . ruby-mode) auto-mode-alist))

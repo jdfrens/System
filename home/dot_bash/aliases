@@ -19,10 +19,8 @@ alias procs="ps -ef | grep jdfrens"
 alias recclean="find . \( -name '*~' -o -name '.*~' -o -name '*.bak' -o -name 'svn*.tmp' \) -print -exec rm {} \;"
 alias rm="/bin/rm -i"
 
-export SVN_REPOSITORIES="Classes Department Personal Projects Research System" 
-alias svn-ignore='svn propedit svn:ignore .'
-alias svn-clean='find ~/ -name "svn-commit*.tmp*" | xargs rm -f'
-
 alias texclean="/bin/rm -f *.dvi *.log *.ps *.aux *.toc *.tof *.lof *.lot *.bbl *.blg *~"
 
 alias webclean='find . \( -name "*.html" -o -name "*.aux" -o -name "*pass" \) -exec rm \{} \;'
+
+function p { cd ~/Projects/$1; }
