@@ -1,10 +1,15 @@
 require 'rubygems'
-require 'wirble'
+
+begin
+  require 'wirble'
+  Wirble.init
+  Wirble.colorize
+rescue LoadError => err
+  warn "Couldn't load Wirble: #{err}"
+end
+
 require 'utility_belt'
 require 'sketches'
-
-Wirble.init
-Wirble.colorize
 
 Sketches.config :editor => 'mate'
 

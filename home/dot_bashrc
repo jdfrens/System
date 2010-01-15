@@ -19,7 +19,7 @@
 # Set some shell options
 
 set -o emacs			# use emacs command-line editing.
-umask 077			# allow no one to read my files
+umask 022
 ulimit -c 0			# limit COREFILESIZE to zero
 
 #
@@ -27,7 +27,13 @@ ulimit -c 0			# limit COREFILESIZE to zero
 
 export TMOUT=0			# don't log me out for lack of activity
 export LINK_TIMEOUT=3		# wait three minutes for nfs timeouts
-export PS1='[\h:\w]\n\$ '		# make my main prompt pretty
+
+# add git branch to prompt
+function parse_git_branch {
+  ref=$(git symbolic-ref HEAD 2> /dev/null) || return
+  echo " ("${ref#refs/heads/}")"
+}
+export PS1="[\h:\w\$(parse_git_branch)]\n\$ "
 
 #
 # Bash keeps the current directory in the variable PWD.  If we

@@ -1,1 +1,1 @@
-export LATTE_PATH=/home/jdfrens/lib/nolatte
+export PATH=$PATH:~/bin
