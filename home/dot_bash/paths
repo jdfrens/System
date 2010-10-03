@@ -1,1 +1,6 @@
-export PATH=$PATH:~/bin
+# Macports
+export PATH=/opt/local/bin:/opt/local/sbin:$PATH
+
+# personal
+export PATH=$PATH:~/bin:.
+

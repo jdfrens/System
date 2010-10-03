@@ -1,17 +1,23 @@
 require 'rubygems'
 
-begin
-  require 'wirble'
-  Wirble.init
-  Wirble.colorize
+def safe_require(lib)
+  require lib
+  yield if block_given?
 rescue LoadError => err
-  warn "Couldn't load Wirble: #{err}"
+  warn "Couldn't load #{lib}: #{err}"
 end
 
-require 'utility_belt'
-require 'sketches'
+# safe_require 'utility_belt'
 
-Sketches.config :editor => 'mate'
+safe_require 'wirble' do
+  Wirble.init
+  Wirble.colorize
+end
 
-require 'boson'
-Boson.start
+safe_require 'sketches' do
+  Sketches.config :editor => 'mate'
+end
+safe_require 'ap'
+safe_require 'boson' do
+  Boson.start
+end
