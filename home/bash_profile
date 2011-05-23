@@ -51,3 +51,4 @@ stty erase 
 #   in the .bash_profile.
 #PATH=/usr/games:$HOME/bin:$PATH:$HOME/nmh/bin:.
 
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && . "$HOME/.rvm/scripts/rvm" # Load RVM function

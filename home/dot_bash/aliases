@@ -8,7 +8,7 @@ alias dvipsall='for i in *.dvi; do echo $i; dvips $i; done'
 alias ll="ls -hlF"
 alias lla="ls -algF"
 alias lpr="lpr -h"			# no burst page
-alias ls="ls -FC --color=always"	# C=multi-column, F=append[/*@]
+alias ls="ls -FCG"			# C=multi-column, F=append[/*@]
 
 alias mv="mv -i"
 alias mymake="make -I ~/System/local/include"

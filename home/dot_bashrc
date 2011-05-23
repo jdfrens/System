@@ -48,6 +48,8 @@ export PWD
 
 set -a			# export all variables defined here
 
+ARCHFLAGS="-arch x86_64"
+
 # These are special setting for using LaTeX
 TEXINPUTS=/usr/share/texmf/tex/latex/base::$HOME/Classes/CS/108/Lectures/includes::$HOME/Classes/CS/214/Lectures/includes::$HOME/lib/tex/macros:.
 BSTINPUTS=$HOME/lib/tex/macros:.
@@ -67,7 +69,6 @@ TRNINIT="-B -e -L -m=u -v -x -X"
 				# -v: display the key you hit...
 				# -x,-X: use threads
 
-LESS=-mq			# less default options: m=verbose, q=quiet
 PAGER='less -s'			# for man pages.  s=contract blank lines
 ENSCRIPT='-h'			# -h: no burst page
 
