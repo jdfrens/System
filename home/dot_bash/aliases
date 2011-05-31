@@ -1,7 +1,10 @@
+alias be="bundle exec"
+
 alias cd..="cd .."
 alias cp="cp -i"
 alias clean="/bin/rm -f *.bak *~ .?*~ \#*\#"
 
+alias e="open -a Emacs"
 # dvips *prints* on Linux by default
 alias dvipsall='for i in *.dvi; do echo $i; dvips $i; done'
 
@@ -13,7 +16,7 @@ alias ls="ls -FCG"			# C=multi-column, F=append[/*@]
 alias mv="mv -i"
 alias mymake="make -I ~/System/local/include"
 
-# lists my procs on this machine
+# lists my procs
 alias procs="ps -ef | grep jdfrens"
 
 alias recclean="find . \( -name '*~' -o -name '.*~' -o -name '*.bak' -o -name 'svn*.tmp' \) -print -exec rm {} \;"
@@ -22,5 +25,3 @@ alias rm="/bin/rm -i"
 alias texclean="/bin/rm -f *.dvi *.log *.ps *.aux *.toc *.tof *.lof *.lot *.bbl *.blg *~"
 
 alias webclean='find . \( -name "*.html" -o -name "*.aux" -o -name "*pass" \) -exec rm \{} \;'
-
-function p { cd ~/Projects/$1; }
