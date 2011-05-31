@@ -28,12 +28,13 @@ ulimit -c 0			# limit COREFILESIZE to zero
 export TMOUT=0			# don't log me out for lack of activity
 export LINK_TIMEOUT=3		# wait three minutes for nfs timeouts
 
-# add git branch to prompt
-function parse_git_branch {
-  ref=$(git symbolic-ref HEAD 2> /dev/null) || return
-  echo " ("${ref#refs/heads/}")"
-}
-export PS1="[\h:\w\$(parse_git_branch)]\n\$ "
+export PS1='[\h:\w$(__git_ps1 " (%s)")]\n\$ '
+
+# some git settings for the PS1 prompt
+export GIT_PS1_SHOWDIRTYSTATE=true
+export GIT_PS1_SHOWSTASHSTATE=true
+export GIT_PS1_SHOWUNTRACKEDFILES=true
+export GIT_PS1_SHOWUPSTREAM="auto verbose"
 
 #
 # Bash keeps the current directory in the variable PWD.  If we

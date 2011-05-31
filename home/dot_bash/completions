@@ -1,7 +1,8 @@
 # this will ignore .svn and other hidden files when doing file completion
 bind 'set match-hidden-files off'
 
-source ~/.bash/completion_scripts/git_completion
+source ~/.bash/completion_scripts/git-completion.bash
+source ~/.bash/completion_scripts/git-flow-completion.bash
 complete -C ~/.bash/completion_scripts/rake_completion -o default rake
 complete -C ~/.bash/completion_scripts/project_completion -o default c
 complete -C ~/.bash/completion_scripts/capistrano_completion -o default cap
