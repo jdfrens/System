@@ -57,10 +57,8 @@
 ;; from this file that loads files from my directory or (2) if you've
 ;; copied those files into your own directory and added your directory
 ;; here.
-(setq load-path (append (list
-			 "/usr/local/share/emacs/site-lisp/"
-			 )
-			load-path))
+(add-to-list 'load-path "~/.emacs.d/icicles/")
+(add-to-list 'load-path "~/.emacs.d/")
 
 ;; -------- Global Defaults and Preferences --------
 
@@ -141,7 +139,6 @@
 	     (setq fill-column 70) )))		; and fill at column 65
 
 (setq initial-major-mode 'text-mode)		; start in text mode...
-(setq default-major-mode 'text-mode)		; ... and default to it.
 
 ; ---- Filladapt
 
@@ -354,17 +351,64 @@ More information can be found in the documentation for font-lock-keywords")
 ; (global-set-key "\C-i" 'laml-sync-process-current-buffer)
 
 ; Arrange that C-xC-e calls the LAML embed command:
-(global-set-key "\C-x\C-e" 'embed)
+; (global-set-key "\C-x\C-e" 'embed)
 (custom-set-variables
- ; '(paren-mode (quote paren) nil (paren))
- '(toolbar-visible-p nil)
- '(user-mail-address "jdfrens@calvin.edu" t)
+  ;; custom-set-variables was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ '(font-lock-mode t t (font-lock))
+ '(ido-enable-flex-matching t)
+ '(ido-mode (quote both) nil (ido))
  '(query-user-mail-address nil)
- '(font-lock-mode t nil (font-lock)))
-(custom-set-faces)
+ '(toolbar-visible-p nil)
+ '(user-mail-address "jdfrens@calvin.edu"))
+(custom-set-faces
+  ;; custom-set-faces was added by Custom.
+  ;; If you edit it by hand, you could mess it up, so be careful.
+  ;; Your init file should contain only one such instance.
+  ;; If there is more than one, they won't work right.
+ )
 
 ;; Ruby stuff
 (autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
 (setq auto-mode-alist  (cons '(".rb$" . ruby-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '(".rhtml$" . html-mode) auto-mode-alist))
 (setq auto-mode-alist  (cons '("^Rakefile$" . ruby-mode) auto-mode-alist))
+
+;; Fuzzy finding
+(require 'fuzzy-find-in-project)
+(fuzzy-find-project-root "~/Code/mms/")
+
+;; Ack stuff
+(defun ack-in-project (pattern)
+  "Run ack, with user-specified ARGS, and collect output in a buffer.
+While ack runs asynchronously, you can use the \\[next-error] command to
+find the text that ack hits refer to. The command actually run is
+defined by the ack-command variable."
+  (interactive (list (read-string "Ack for (in app root): " (thing-at-point 'symbol))))
+ 
+  (let (compile-command
+        (compilation-error-regexp-alist grep-regexp-alist)
+        (compilation-directory default-directory)
+        (ack-full-buffer-name (concat "*ack-" pattern "*")))
+
+    ;; lambda defined here since compilation-start expects to call a function to get the buffer name
+    (compilation-start (concat ack-command " -i  --noheading --nocolor " pattern " ~/Code/mms/") 'ack-mode
+                       (when ack-use-search-in-buffer-name
+                         (function (lambda (ignore)
+                                     ack-full-buffer-name)))
+                       (regexp-quote pattern))))
+
+(global-set-key "\C-cfa" 'ack-in-project)
+
+
+;;; This was installed by package-install.el.
+;;; This provides support for the package system and
+;;; interfacing with ELPA, the package archive.
+;;; Move this code earlier if you want to reference
+;;; packages in your .emacs.
+(when
+    (load
+     (expand-file-name "~/.emacs.d/elpa/package.el"))
+  (package-initialize))
