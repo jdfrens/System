@@ -1,6 +1,2 @@
-# Macports
-export PATH=/opt/local/bin:/opt/local/sbin:$PATH
-
-# personal
-export PATH=$PATH:~/bin:.
-
+# rbenv, original, personal, cwd
+export PATH=/usr/local/bin:$HOME/.rbenv/bin:$PATH:~/bin:.
