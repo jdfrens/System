@@ -8,6 +8,8 @@ alias e="open -a Emacs"
 # dvips *prints* on Linux by default
 alias dvipsall='for i in *.dvi; do echo $i; dvips $i; done'
 
+alias locate='if [ $((`date +%s`-`eval $(stat -s /var/db/locate.database); echo $st_mtime`)) -gt 3600 ]; then echo "locate: db is too old!">/dev/stderr; sudo /usr/libexec/locate.updatedb; fi; locate -i'
+
 alias ll="ls -hlF"
 alias lla="ls -algF"
 alias lpr="lpr -h"			# no burst page
