@@ -14,6 +14,7 @@ ZSH_THEME="jdfrens"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 alias ec="emacsclient -c"
 alias et="emacsclient -t"
+alias marked="open -a Marked"
 
 # Set to this to use case-sensitive completion
 # CASE_SENSITIVE="true"
