@@ -17,8 +17,6 @@
 	# to see why we use this convoluted syntax
 	#pager = less -$LESS -SFRX -SR +'/^---'
 	excludesfile = /Users/jdfrens/.gitignore_global
-[branch]
-	autosetupmerge = true
 [credential]
 	helper = osxkeychain
 [difftool "sourcetree"]
@@ -27,3 +25,5 @@
 [mergetool "sourcetree"]
 	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
+[push]
+	default = upstream
