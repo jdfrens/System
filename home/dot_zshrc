@@ -53,3 +53,4 @@ export ZSH_THEME_GIT_PROMPT_NOCACHE=1
 compdef -d rake
 
 eval "$(rbenv init -)"
+eval "$(exenv init -)"
