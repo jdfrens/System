@@ -1,6 +1,7 @@
 [user]
 	name = Jeremy D. Frens
 	email = jdfrens@gmail.com
+	useConfigOnly = true
 [color]
 	status = auto
 	branch = auto
@@ -9,8 +10,9 @@
 [alias]
 	co = checkout
 	st = status
-	stage = add
 	changes=diff --name-status -r
+	lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr)%C(bold blue)<%an>%Creset' --abbrev-commit
+	create-pull-request = !sh -c 'stash pull-request $0 $@'
 [core]
 	# search for core.pager in
 	# <http://www.kernel.org/pub/software/scm/git/docs/git-config.html>
@@ -29,3 +31,5 @@
 	default = upstream
 [fetch]
 	prune = true
+[commit]
+	template = /Users/jeremy.frens/.stCommitMsg
